@@ -1,0 +1,34 @@
+trivia game pseudocode steps:
+
+create html page with the following:
+- background for page and/or question area
+- create title
+- create content div that has initial start button
+
+set up global variables for game
+- questions object where each question is an object that has question1: {question text: text}, {option 1: text, etc.} and {correct answer: right answer letter}
+- correct questions
+- incorrect questions
+- unanswered questions
+
+start button should use jquery to update content div with the following items:
+- above question should be a timer, similar to stopwatch activity, that counts down from 30 instead of up. only seconds are needed for display. 
+- should update with questions from questions object.
+--- first section of question area should grab q1 text from the question text item in the question1 object
+--- next should run through question1 object and create div for each option, with the text being the from that option's text. this should use a for loop going through each question.
+
+if timer reaches zero:
+- call upon "noAnswer" function that updates content with message saying they didn't answer, tells them the correct answer by going in the question they're on and using the {correctAnswer} item, and adds one to unanswered questions variable. 
+- After a set amount of time on this screen, it should move onto the next question by going through the same process as if the start button was hit.
+
+if answer is selected:
+- check to see if text inside selected div matches that of the {correctAnswer}
+--- if so, update page with correct message and adds one to correct questions
+--- if not, update page with incorrect message, tell them the correct answer by the same way as if no answer, and add one to incorrect questions.
+- for either outcome, the page should move on to the next after a set amount of time
+
+after all questions have been answered it should go to the end game screen:
+- this page should show the correct answers, incorrect answers, and unanswered amounts.
+- below this, a button should exist to start over the game. This button should do the following:
+--- set incorrect, correct, and unanswered questions to 0
+--- go back and content div the same as if the start button had just been pressed, with question 1 being shown.
