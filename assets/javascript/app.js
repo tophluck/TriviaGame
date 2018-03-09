@@ -1,27 +1,27 @@
 var questions = {
     1: {
-        text: "stuff",
-        choices: ["1", "2", "3", "4"],
+        text: "What is the name of the team based in Sacramento?",
+        choices: ["The Kings", "The Pelicans", "The Hornets", "The Bucks"],
         correctOption: "1",
-        correctText: "1"
+        correctText: "The Kings"
     },
     2: {
-        text: "stuff",
-        choices: ["1", "2", "3", "4"],
+        text: "Who won the NBA Most Valueable Player award for the 2016-2017 season?",
+        choices: ["Lebron James", "Russel Westbrook", "James Harden", "Joel Embiid"],
         correctOption: "2",
-        correctText: "2"
+        correctText: "Russel Wesbrook"
     },
     3: {
-        text: "stuff",
-        choices: ["1", "2", "3", "4"],
+        text: "Who is the all time leader in points scored?",
+        choices: ["Micheal Jordan", "Kobe Bryant", "Kareem Abdul-Jabar", "Karl Malone"],
         correctOption: "3",
-        correctText: "3"
+        correctText: "Kareem Abdul-Jabar"
     },
     4: {
-        text: "stuff",
-        choices: ["1", "2", "3", "4"],
+        text: "Which current or former player has the best social media game?",
+        choices: ["Kevin Durant", "Lebron James", "Charles Barkley", "Joel Embiid"],
         correctOption: "4",
-        correctText: "4"
+        correctText: "Joel Embiid"
     }
 };
 var correctAnswers = 0;
@@ -39,12 +39,12 @@ function countdown() {
         unanswered++;
         $("#content").empty();
         var unansweredMessage = $("<p>");
-        unansweredMessage.html("<p>Times up! The correct answer was " + questions[currentQuestion].correctText + "</p>");
+        unansweredMessage.html("<p>Times up! The correct answer is " + questions[currentQuestion].correctText + "</p>");
         $("#content").append(unansweredMessage);
         currentQuestion++;
         setTimeout(function() {
             nextQuestion();
-        }, 500); 
+        }, 5000); 
     };
 }
 
@@ -63,42 +63,40 @@ function nextQuestion() {
         $("#start").on("click", function() {
             currentQuestion++;
             nextQuestion();
-        })
+        });
     } else {
         var questionContent = $("<div>");
         questionContent.html("<p>Time Remaining: <span id='timeLeft'>" + timer + "</span></p><h2>" + questions[currentQuestion].text + "</h2><ul style='list-style: none'><li id='1'>" + questions[currentQuestion].choices[0] + "</li><li id='2'>" + questions[currentQuestion].choices[1] + "</li><li id='3'>" + questions[currentQuestion].choices[2] + "</li><li id='4'>" + questions[currentQuestion].choices[3] + "</li></ul>")
         $("#content").append(questionContent);
-        intervalId = setInterval(countdown, 100);
+        intervalId = setInterval(countdown, 1000);
+        $("li").on("click", function() {
+            clearInterval(intervalId);
+            if ($(this).attr("id") === questions[currentQuestion].correctOption) {
+                correctAnswers++;
+                $("#content").empty();
+                var correctMessage = $("<p>");
+                correctMessage.html("<p>Correct!</p>");
+                $("#content").append(correctMessage);
+                currentQuestion++;
+                setTimeout(function() {
+                    nextQuestion();
+                }, 5000);
+            } else {
+                incorrectAnswers++;
+                $("#content").empty();
+                var incorrectMessage = $("<p>");
+                incorrectMessage.html("<p>Wrong! The correct answer is " + questions[currentQuestion].correctText + "</p>");
+                $("#content").append(incorrectMessage);
+                currentQuestion++;
+                setTimeout(function() {
+                    nextQuestion();
+                }, 5000);
+            };
+        });
     }
-
-};
-
-function answered() {
-    clearInterval(intervalId);
-    if ($(this).attr("id") === questions[currentQuestion].correctOption) {
-        correctAnswers++;
-        $("#content").empty();
-        var correctMessage = $("<p>");
-        correctMessage.html("<p>Correct!</p>");
-        $("#content").append(correctMessage);
-        currentQuestion++;
-        setTimeout(function() {
-            nextQuestion();
-        }, 5000);
-    } else {
-        incorrectAnswers++;
-        $("#content").empty();
-        var incorrectMessage = $("<p>");
-        incorrectMessage.html("<p>Wrong! The correct answer was " + questions[currentQuestion].correctText + "</p>");
-        $("#content").append(incorrectMessage);
-        currentQuestion++;
-        setTimeout(function() {
-            nextQuestion();
-        }, 5000);
-    }
-};
+}
 
 $("#start").on("click", function() {
     currentQuestion++;
     nextQuestion();
-})
+});
